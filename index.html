@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Click RPG</title>
+
+<style>
+body{
+  background:#0f0f0f;
+  color:white;
+  font-family:Arial;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.box{
+  background:#1c1c1c;
+  padding:20px;
+  border-radius:12px;
+  width:320px;
+  text-align:center;
+}
+
+button{
+  width:100%;
+  padding:12px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.click{
+  background:#00ff88;
+}
+
+.shop{
+  background:#ffaa00;
+}
+
+.reset{
+  background:#ff4444;
+  color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2>🎮 Click RPG</h2>
+
+<p>💰 Moedas: <span id="moedas">0</span></p>
+<p>⭐ XP: <span id="xp">0</span></p>
+<p>🏆 Nível: <span id="nivel">1</span></p>
+<p>⚔️ Dano por clique: <span id="dano">1</span></p>
+
+<button class="click" onclick="clicar()">CLICAR</button>
+<button class="shop" onclick="upgrade()">🛒 Melhorar (+1 dano | 10 moedas)</button>
+<button class="reset" onclick="reset()">Resetar</button>
+
+</div>
+
+<script>
+
+let moedas = localStorage.getItem("moedas") || 0;
+let xp = localStorage.getItem("xp") || 0;
+let nivel = localStorage.getItem("nivel") || 1;
+let dano = localStorage.getItem("dano") || 1;
+
+moedas = parseInt(moedas);
+xp = parseInt(xp);
+nivel = parseInt(nivel);
+dano = parseInt(dano);
+
+function atualizar(){
+  document.getElementById("moedas").innerText = moedas;
+  document.getElementById("xp").innerText = xp;
+  document.getElementById("nivel").innerText = nivel;
+  document.getElementById("dano").innerText = dano;
+
+  localStorage.setItem("moedas", moedas);
+  localStorage.setItem("xp", xp);
+  localStorage.setItem("nivel", nivel);
+  localStorage.setItem("dano", dano);
+}
+
+function clicar(){
+  moedas += dano;
+  xp += dano;
+
+  if(xp >= 20){
+    nivel++;
+    xp = 0;
+    alert("🏆 Subiu de nível!");
+  }
+
+  atualizar();
+}
+
+function upgrade(){
+  if(moedas >= 10){
+    moedas -= 10;
+    dano++;
+    atualizar();
+  } else {
+    alert("❌ Sem moedas suficientes!");
+  }
+}
+
+function reset(){
+  moedas = 0;
+  xp = 0;
+  nivel = 1;
+  dano = 1;
+  atualizar();
+}
+
+atualizar();
+
+</script>
+
+</body>
+</html>
